@@ -35,8 +35,8 @@ after_success:
   - pip3 install wheel
   - pip3 install awscli --upgrade --user
   - export PATH=$PATH:$HOME/.local/bin
-  - eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-  - docker tag rest-with-spring-boot-udemy:latest $IMAGE_REPO_URL:$TRAVIS_JOB_ID
+  - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  - docker tag spring-boot-with-docker:latest $IMAGE_REPO_URL:$TRAVIS_JOB_ID
   - docker push $IMAGE_REPO_URL:$TRAVIS_JOB_ID
   - add-apt-repository ppa:eugenesan/ppa
   - apt-get update
