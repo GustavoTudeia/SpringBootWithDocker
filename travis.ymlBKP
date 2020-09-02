@@ -1,0 +1,17 @@
+language: bash
+services: docker
+before_install:
+  - echo "We are build Docker Images!!!"
+script:
+  - docker-compose build
+before_deploy:
+  - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+deploy:
+  provider: script
+  script:
+    docker push gustavotudeia/mysql-spring-boot-with-docker;
+    docker push gustavotudeia/spring-boot-with-docker;
+  on:
+    branch: master
+notifications:
+  email: false

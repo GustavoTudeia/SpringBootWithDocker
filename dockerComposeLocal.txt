@@ -1,21 +1,24 @@
 version: '3.4'
 services:
   db:
-    image: mysql:5.7.22
+    image: gustavotudeia/mysql-spring-boot-with-docker
     command: mysqld --default-authentication-plugin=mysql_native_password
     restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       TZ: America/Sao_Paulo
       MYSQL_ROOT_PASSWORD: docker
       MYSQL_USER: docker
-      MYSQL_PASSWORD: docker123
+      MYSQL_PASSWORD: docker
       MYSQL_DATABASE: spring_boot_with_docker
     ports:
       - "3306:3308"
     networks:
       - spring-docker-network
   spring-boot-with-docker:
-    image: spring-boot-with-docker
+    image: gustavotudeia/spring-boot-with-docker
     restart: always
     build: ./spring-boot-with-docker
     working_dir: /spring-boot-with-docker
@@ -27,7 +30,7 @@ services:
       - ~/.m2:/root/.m2
     ports:
       - "8080:8080"
-    command: mvn spring-boot:run
+    command: mvn clean spring-boot:run
     links:
       - db
     depends_on:
